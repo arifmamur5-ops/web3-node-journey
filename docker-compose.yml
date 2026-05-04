@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  geth-node:
+    image: ethereum/client-go:latest
+    container_name: geth-holesky
+    restart: unless-stopped
+    ports:
+      - "8545:8545"
+      - "30303:30303"
+    volumes:
+      - ./geth-data:/root/.ethereum
+    command:
+      - --holesky
+      - --syncmode=snap
+      - --http
+      - --http.addr=0.0.0.0
+      - --http.port=8545
+      - --http.api=eth,net,web3,debug
+      - --http.vhosts=*
+      - --http.corsdomain=*
