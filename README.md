@@ -19,15 +19,14 @@ I believe in optimizing resources, so I'm running this on:
 * **Network:** Holesky Testnet
 * **Sync Mode:** Snap Sync (Optimized for low-resource hardware)
 
+### Lessons Learned
+* **Handling Docker permission issues with Git.
+* **Troubleshooting port mapping (8545 vs 8546).
+* **Optimizing sync modes (switching from light to snap sync due to Geth updates).
+
 ### Verification
 Verified the node status using JSON-RPC:
 ```bash
 curl -X POST -H "Content-Type: application/json" \
   --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' \
   http://localhost:8545
-
-
-### Lessons Learned
-​* **Handling Docker permission issues with Git.
-​* **Troubleshooting port mapping (8545 vs 8546).
-​* **Optimizing sync modes (switching from light to snap sync due to Geth updates).
