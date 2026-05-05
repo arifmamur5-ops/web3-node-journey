@@ -9,7 +9,7 @@ Successfully deployed an Ethereum execution client (Geth) on the Holesky testnet
 I believe in optimizing resources, so I'm running this on:
 * **Machine:** Lenovo V110
 * **OS:** Arch Linux (Sway WM)
-* **CPU:** Intel Celeron N3350
+* **CPU:** AMD A9-9420 Radeon R5 (2 CPU Cores + 3 GPU Cores)
 * **RAM:** 12GB
 * **Storage:** 500GB Samsung 870 EVO SSD
 
@@ -17,7 +17,7 @@ I believe in optimizing resources, so I'm running this on:
 * **Engine:** Docker & Docker Compose
 * **Client:** Geth (Go-Ethereum)
 * **Network:** Holesky Testnet
-* **Sync Mode:** Snap Sync (Optimized for low-resource hardware)
+* **Sync Mode:** Snap Sync (Optimized for dual-core hardware)
 
 ### Lessons Learned
 * Handling Docker permission issues with Git.
@@ -27,14 +27,14 @@ I believe in optimizing resources, so I'm running this on:
 ### Known Issues & Next Steps
 
 ### 1. Missing Beacon Client Warning
-Currently, the Geth logs show: `Post-merge network, but no beacon client seen. Please launch a beacon client`.
+Currently, the Geth logs show: `Beacon client online, but no consensus updates.`.
 * **Status:** Open
 * **Context:** In the current Ethereum architecture (Post-Merge), Geth requires a Consensus Layer (CL) client to fully synchronize and verify blocks.
 * **Plan:** My next step is to set up a lightweight Consensus Client (like Lighthouse or Prysm) using Docker Compose to complete the full node stack without overloading the Lenovo V110's resources.
 
 ### 2. Hardware Resource Management
-* Syncing in `snap` mode on a dual-core Celeron requires heavy I/O wait monitoring.
-* **Optimization:** Considering limiting Docker CPU usage if the system becomes unresponsive during heavy sync periods.
+* Syncing on a dual-core AMD A9 requires heavy I/O wait monitoring.
+* **Optimization:** Considering limiting Docker CPU usage if the system becomes unresponsive. 
 
 ### Verification
 Verified the node status using JSON-RPC:
