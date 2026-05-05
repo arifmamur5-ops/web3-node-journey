@@ -20,9 +20,21 @@ I believe in optimizing resources, so I'm running this on:
 * **Sync Mode:** Snap Sync (Optimized for low-resource hardware)
 
 ### Lessons Learned
-* **Handling Docker permission issues with Git.
-* **Troubleshooting port mapping (8545 vs 8546).
-* **Optimizing sync modes (switching from light to snap sync due to Geth updates).
+* Handling Docker permission issues with Git.
+* Troubleshooting port mapping (8545 vs 8546).
+* Optimizing sync modes (switching from light to snap sync due to Geth updates).
+
+### Known Issues & Next Steps
+
+### 1. Missing Beacon Client Warning
+Currently, the Geth logs show: `Post-merge network, but no beacon client seen. Please launch a beacon client`.
+* **Status:** Open
+* **Context:** In the current Ethereum architecture (Post-Merge), Geth requires a Consensus Layer (CL) client to fully synchronize and verify blocks.
+* **Plan:** My next step is to set up a lightweight Consensus Client (like Lighthouse or Prysm) using Docker Compose to complete the full node stack without overloading the Lenovo V110's resources.
+
+### 2. Hardware Resource Management
+* Syncing in `snap` mode on a dual-core Celeron requires heavy I/O wait monitoring.
+* **Optimization:** Considering limiting Docker CPU usage if the system becomes unresponsive during heavy sync periods.
 
 ### Verification
 Verified the node status using JSON-RPC:
