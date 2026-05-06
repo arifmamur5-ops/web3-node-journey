@@ -45,19 +45,25 @@ curl -X POST -H "Content-Type: application/json" \
 
 ## Project 2: Lighthouse Consensus Client (Holesky Testnet)
 
-**Status:** Running (Syncing from Genesis)
+**Current Status:** Active & Syncing (Genesis Mode)
 
-**Setup:**
+### Tech Stack
 - **Consensus Client:** Lighthouse
 - **Network:** Holesky
-- **Hardware:** Arch Linux (Sway) | AMD A9 | 8GB RAM
+- **OS:** Arch Linux (Sway WM)
+- **Hardware:** AMD A9 Dual-Core, 8GB RAM
 
-**Troubleshooting Log (Malam Jumat Berdarah):**
-1. **DNS Issue:** WiFi publik nge-reset `/etc/resolv.conf`. 
-   - *Fix:* Hapus symlink, buat file fisik, set DNS Google (8.8.8.8), dan kunci pake `sudo chattr +i /etc/resolv.conf`.
-2. **Docker DNS:** Container tetep gak bisa resolve domain.
-   - *Fix:* Tambahin config `dns: [8.8.8.8, 1.1.1.1]` langsung di `docker-compose.yml`.
-3. **Checkpoint Sync Failure:** Gagal konek ke remote checkpoint karena masalah network.
-   - *Fix:* Paksa jalan dari Genesis pake flag `--allow-insecure-genesis-sync` biar node tetep running meskipun DNS rewel.
-4. **Permission Denied (Git):** Gagal `git add` karena folder data punya `root`.
-   - *Fix:* Gunakan `.gitignore` buat nge-exclude `lighthouse-data/` dan `geth-data/`.
+### Troubleshooting Log
+- **System DNS Conflict:** Encountered persistent DNS resets on `/etc/resolv.conf` due to public WiFi NetworkManager settings.
+    - *Fix:* Replaced the symlink with a static file pointing to Google DNS (8.8.8.8) and applied `sudo chattr +i` to prevent unauthorized overwrites.
+- **Docker DNS Resolution:** Containers failed to resolve external domains despite host-level fixes.
+    - *Fix:* Explicitly defined DNS servers (`8.8.8.8`, `1.1.1.1`) within the `docker-compose.yml` service configuration.
+- **Checkpoint Sync Failure:** Network restrictions prevented connection to trusted checkpoint endpoints.
+    - *Fix:* Pivoted to Genesis sync by implementing the `--allow-insecure-genesis-sync` flag to ensure node uptime.
+- **Git Permission & Data Bloat:** Faced `Permission denied` errors during `git add` due to Docker-owned volumes.
+    - *Fix:* Configured `.gitignore` to exclude heavy data directories (`geth-data/`, `lighthouse-data/`) and corrected ownership via `chown`.
+
+### How to Run
+```bash
+docker-compose up -d
+docker logs -f lighthouse-holesky
