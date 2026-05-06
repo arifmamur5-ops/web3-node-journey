@@ -9,7 +9,7 @@ Successfully deployed an Ethereum execution client (Geth) on the Holesky testnet
 I believe in optimizing resources, so I'm running this on:
 * **Machine:** Lenovo V110
 * **OS:** Arch Linux (Sway WM)
-* **CPU:** AMD A9-9420 Radeon R5 (2 CPU Cores + 3 GPU Cores)
+* **CPU:** AMD A9-9420 Radeon R5 dual-core
 * **RAM:** 12GB
 * **Storage:** 500GB Samsung 870 EVO SSD
 
@@ -51,7 +51,7 @@ curl -X POST -H "Content-Type: application/json" \
 - **Consensus Client:** Lighthouse
 - **Network:** Holesky
 - **OS:** Arch Linux (Sway WM)
-- **Hardware:** AMD A9 Dual-Core, 8GB RAM
+- **Hardware:** AMD A9-9420 Radeon R5, 2GB RAM
 
 ### Troubleshooting Log
 - **System DNS Conflict:** Encountered persistent DNS resets on `/etc/resolv.conf` due to public WiFi NetworkManager settings.
