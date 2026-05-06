@@ -42,3 +42,22 @@ Verified the node status using JSON-RPC:
 curl -X POST -H "Content-Type: application/json" \
   --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' \
   http://localhost:8545
+
+## Project 2: Lighthouse Consensus Client (Holesky Testnet)
+
+**Status:** Running (Syncing from Genesis)
+
+**Setup:**
+- **Consensus Client:** Lighthouse
+- **Network:** Holesky
+- **Hardware:** Arch Linux (Sway) | AMD A9 | 8GB RAM
+
+**Troubleshooting Log (Malam Jumat Berdarah):**
+1. **DNS Issue:** WiFi publik nge-reset `/etc/resolv.conf`. 
+   - *Fix:* Hapus symlink, buat file fisik, set DNS Google (8.8.8.8), dan kunci pake `sudo chattr +i /etc/resolv.conf`.
+2. **Docker DNS:** Container tetep gak bisa resolve domain.
+   - *Fix:* Tambahin config `dns: [8.8.8.8, 1.1.1.1]` langsung di `docker-compose.yml`.
+3. **Checkpoint Sync Failure:** Gagal konek ke remote checkpoint karena masalah network.
+   - *Fix:* Paksa jalan dari Genesis pake flag `--allow-insecure-genesis-sync` biar node tetep running meskipun DNS rewel.
+4. **Permission Denied (Git):** Gagal `git add` karena folder data punya `root`.
+   - *Fix:* Gunakan `.gitignore` buat nge-exclude `lighthouse-data/` dan `geth-data/`.
