@@ -7,15 +7,42 @@ services:
     restart: unless-stopped
     ports:
       - "8545:8545"
+      - "8551:8551" # Port Engine API buat Lighthouse
       - "30303:30303"
     volumes:
       - ./geth-data:/root/.ethereum
+      - ./jwt.hex:/root/jwt.hex # Mount JWT ke dalem Geth
     command:
       - --holesky
       - --syncmode=snap
       - --http
+      - --http.api=eth,net,web3,engine,admin
       - --http.addr=0.0.0.0
-      - --http.port=8545
-      - --http.api=eth,net,web3,debug
-      - --http.vhosts=*
       - --http.corsdomain=*
+      - --authrpc.addr=0.0.0.0
+      - --authrpc.port=8551
+      - --authrpc.vhosts=*
+      - --authrpc.jwtsecret=/root/jwt.hex
+
+  lighthouse:
+    image: sigp/lighthouse:latest
+    container_name: lighthouse-holesky
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    restart: unless-stopped
+    ports:
+      - "9000:9000/tcp"
+      - "9000:9000/udp"
+    volumes:
+      - ./lighthouse-data:/root/.lighthouse
+      - ./jwt.hex:/root/jwt.hex # Mount JWT ke dalem Lighthouse
+    command:
+      - lighthouse
+      - beacon_node
+      - --network=holesky
+      - --execution-endpoint=http://geth-node:8551
+      - --execution-jwt=/root/jwt.hex
+      - --http
+      - --http-address=0.0.0.0
+      - --allow-insecure-genesis-sync
