@@ -67,3 +67,53 @@ curl -X POST -H "Content-Type: application/json" \
 ```bash
 docker-compose up -d
 docker logs -f lighthouse-holesky
+
+# Project 4: Ethereum Monitoring Stack
+
+This repository contains the configuration for running and monitoring an Ethereum Node (Holesky Testnet) using Geth and Lighthouse, integrated with Prometheus and Grafana for real-time analytics.
+
+## 🚀 Components
+- **Execution Client:** Geth
+- **Consensus Client:** Lighthouse
+- **Monitoring:** Prometheus & Grafana
+- **Hardware Metrics:** System-level performance tracking
+
+## 📊 Monitoring Features
+The Grafana dashboard is configured to visualize:
+- **Node Health:** Service uptime for Geth and Lighthouse.
+- **Sync Progress:** Lighthouse `peer_count` and `head_slot_height`.
+- **Hardware Performance:** CPU load, 12GB RAM utilization, and Samsung 870 EVO SSD I/O.
+
+## 🛠️ Getting Started
+1. Clone this repository.
+2. Launch the services using Docker Compose:
+   ```bash
+   docker-compose up -d
+
+```
+ 3. Access the interfaces:
+   * **Grafana:** http://localhost:3000 (Default: admin/admin)
+   * **Prometheus:** http://localhost:9090
+## 📝 Note
+If the metrics show "No Data," please check the peer_count in the Lighthouse logs. It may take a few minutes for the node to discover peers on the Holesky network before data starts flowing into Prometheus.
+```
+
+## ⚠️ Challenges Encountered
+
+During the setup, several issues were identified and resolved:
+
+1. **Docker Service Naming:**
+   - **Problem:** Commands like `docker-compose restart` failed because of inconsistent service naming (e.g., trying to restart `lighthouse-holesky` while the service was named `lighthouse`).
+   - **Solution:** Identified correct service names using `docker-compose ps` and updated the commands accordingly.
+
+2. **Syncing & Peer Discovery:**
+   - **Problem:** Initial Grafana metrics showed "No Data" with `peer_count: 0`.
+   - **Solution:** Verified the Lighthouse logs, checked network connectivity, and waited for the node to handshake with peers on the Holesky network.
+
+3. **Metrics Connectivity:**
+   - **Problem:** Prometheus showed some targets as `DOWN` with 404 errors.
+   - **Solution:** Configured `prometheus.yml` to point to the correct internal container ports (e.g., `lighthouse:5054`) and ensured metrics flags were enabled on the clients.
+
+4. **Git Conflict & Merge Issues:**
+   - **Problem:** Encountered "divergent branches" and "missing editor (vi)" errors during the push to GitHub.
+   - **Solution:** Resolved by configuring `pull.rebase false` and executing a manual merge commit via terminal.
