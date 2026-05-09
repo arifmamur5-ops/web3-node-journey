@@ -91,9 +91,8 @@ The Grafana dashboard is configured to visualize:
 2. Launch the services using Docker Compose:
    ```bash
    docker-compose up -d
-
 ```
- 3. Access the interfaces:
+3. Access the interfaces:
    * **Grafana:** http://localhost:3000 (Default: admin/admin)
    * **Prometheus:** http://localhost:9090
 ## 📝 Note
