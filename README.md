@@ -93,14 +93,6 @@ The Grafana dashboard is configured to visualize:
    docker-compose up -d
 ```
 
-3. Access the interfaces:
-   * **Grafana:** http://localhost:3000 (Default: admin/admin)
-   * **Prometheus:** http://localhost:9090
-
-## 📝 Note
-If the metrics show "No Data," please check the peer_count in the Lighthouse logs. It may take a few minutes for the node to discover peers on the Holesky network before data starts flowing into Prometheus.
-```
-
 ## ⚠️ Challenges Encountered
 
 During the setup, several issues were identified and resolved:
