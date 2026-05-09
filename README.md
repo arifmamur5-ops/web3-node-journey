@@ -68,6 +68,7 @@ curl -X POST -H "Content-Type: application/json" \
 ```bash
 docker-compose up -d
 docker logs -f lighthouse-holesky
+```
 
 # Project 4: Ethereum Monitoring Stack
 
