@@ -97,7 +97,6 @@ The Grafana dashboard is configured to visualize:
    * **Prometheus:** http://localhost:9090
 ## 📝 Note
 If the metrics show "No Data," please check the peer_count in the Lighthouse logs. It may take a few minutes for the node to discover peers on the Holesky network before data starts flowing into Prometheus.
-```
 
 ## ⚠️ Challenges Encountered
 
