@@ -42,6 +42,7 @@ Verified the node status using JSON-RPC:
 curl -X POST -H "Content-Type: application/json" \
   --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' \
   http://localhost:8545
+```
 
 ## Project 2: Lighthouse Consensus Client (Holesky Testnet)
 
