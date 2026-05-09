@@ -91,7 +91,9 @@ The Grafana dashboard is configured to visualize:
 2. Launch the services using Docker Compose:
    ```bash
    docker-compose up -d
+
 ```
+
 
 ## ⚠️ Challenges Encountered
 
