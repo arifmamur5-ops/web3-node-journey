@@ -132,7 +132,7 @@ To isolate and accurately test the security layer's efficiency without external 
 
 ## System Architecture & Configuration
 
-The Nginx web server is configured with strict traffic-shaping rules: a baseline rate of `30r/m` (one request per second) and a tolerance threshold of `burst=5` utilizing the *Leaky Bucket* algorithm with the `nodelay` flag.
+The Nginx web server is configured with strict traffic-shaping rules: a baseline rate of `30r/m` (Thirty request per minute) and a tolerance threshold of `burst=5` utilizing the *Leaky Bucket* algorithm with the `nodelay` flag.
 
 Configuration file (`/etc/nginx/nginx.conf`):
 ```nginx
