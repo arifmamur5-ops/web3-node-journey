@@ -136,7 +136,18 @@ The Nginx web server is configured with strict traffic-shaping rules: a baseline
 
 Configuration file (`/etc/nginx/nginx.conf`):
 ```nginx
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
 http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+
     limit_req_zone $binary_remote_addr zone=rpc_limit:10m rate=30r/m;
 
     server {
@@ -148,13 +159,15 @@ http {
             limit_req_status 429;
 
             proxy_pass http://localhost:8545;
+            
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
         }
 
+        # Custom error 
         error_page 429 /429.html;
         location = /429.html {
-            return 429 "Woi! Jangan spam, sabar dikit napa! (Too Many Requests)\n";
+            return 429 "Too Many Requests\n";
         }
     }
 }
