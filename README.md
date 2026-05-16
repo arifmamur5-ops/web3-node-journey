@@ -137,7 +137,7 @@ The Nginx web server is configured with strict traffic-shaping rules: a baseline
 Configuration file (`/etc/nginx/nginx.conf`):
 ```nginx
 http {
-    limit_req_zone $binary_remote_addr zone=rpc_limit:10m rate=1r/s;
+    limit_req_zone $binary_remote_addr zone=rpc_limit:10m rate=30r/m;
 
     server {
         listen       2096;
