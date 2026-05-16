@@ -119,3 +119,72 @@ During the setup, several issues were identified and resolved:
 4. **Git Conflict & Merge Issues:**
    - **Problem:** Encountered "divergent branches" and "missing editor (vi)" errors during the push to GitHub.
    - **Solution:** Resolved by configuring `pull.rebase false` and executing a manual merge commit via terminal.
+
+ 
+# Week 5: RPC Node Security - Implementation of Nginx Reverse Proxy & Rate Limiting
+
+## 📌 Project Overview
+This fifth-week project focuses on securing blockchain RPC Node infrastructure against brute-force attacks, request spamming, and potential DDoS threats using **Nginx** as a *Reverse Proxy* and *Rate Limiter*. 
+
+To isolate and accurately test the security layer's efficiency without external network dependencies or local hardware choking, **Anvil (Foundry)** was utilized as a local mock RPC backend.
+
+---
+
+## 🏗️ System Architecture & Configuration
+
+The Nginx web server is configured with strict traffic-shaping rules: a baseline rate of `1r/s` (one request per second) and a tolerance threshold of `burst=5` utilizing the *Leaky Bucket* algorithm with the `nodelay` flag.
+
+Configuration file (`/etc/nginx/nginx.conf`):
+```nginx
+http {
+    limit_req_zone $binary_remote_addr zone=rpc_limit:10m rate=1r/s;
+
+    server {
+        listen       2096;
+        server_name  localhost;
+
+        location / {
+            limit_req zone=rpc_limit burst=5 nodelay;
+            limit_req_status 429;
+
+            proxy_pass http://localhost:8545;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+
+        error_page 429 /429.html;
+        location = /429.html {
+            return 429 "Woi! Jangan spam, sabar dikit napa! (Too Many Requests)\n";
+        }
+    }
+}
+
+```
+## 🌋 The 48-Hour Infrastructure Drama (Real-World Troubleshooting)
+This project was a true test of resilience, executed on local low-spec hardware (Lenovo V110, AMD A9, 12GB RAM, running Arch Linux + Sway WM). Instead of a smooth deployment, it turned into a chaotic battle against multiple real-world bottlenecks:
+ 1. **Database Corruption (Geth):** The initial setup using the Ethereum Geth client (Holesky Testnet) suffered a fatal missing trie node error due to an unexpected system forced-shutdown. A complete removedb procedure was required to reset the state.
+ 2. **State Healing Bottleneck:** Upon restarting the synchronization from scratch, the process became stuck at **99.4% for nearly 48 hours**. The heavy cryptographic verification of the Merkle tree maxed out disk I/O, combined with severe ISP network throttling, causing Nginx to continuously throw 502 Bad Gateway errors.
+ 3. **Hardware Rebellion:** In the middle of intense blockchain debugging, the laptop's physical hardware began to fail—the touchpad died completely, and the built-in keyboard suffered from heavy "ghost touch" (random phantom typing). Configuration and navigation had to be executed 100% via external keyboard shortcuts inside the Sway window manager environment.
+**The Tactical Pivot:** To prevent endless synchronization delays and ensure deliverability, I made the executive decision to pause the Geth node and pivot to **Anvil** as a local mock RPC backend on port 8545. This effectively isolated the testing environment, proving that Nginx rate-limiting architecture can be validated independently of external chain states.
+## 🧪 Automated Load Testing & Verification
+The defense mechanism was load-tested by firing 40 consecutive concurrent POST requests (eth_blockNumber) via an automated Bash loop script:
+```bash
+for i in {1..40}; do 
+    echo -n "Request #$i: "
+    curl -s -o /dev/null -w "%{http_code}\n" -X POST \
+    -H "Content-Type: application/json" \
+    --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' \
+    http://localhost:2096
+    sleep 0.1
+done
+
+```
+### 📊 Terminal Execution Output
+*(Insert your glorious dual-terminal screenshot showing HTTP 200 codes shifting to 429 here)*
+**Results Analysis:**
+ * **Requests 1-5 (HTTP 200):** Successfully forwarded to the Anvil backend as they fell within the allowed burst capacity.
+ * **Requests 6-40 (HTTP 429):** Instantly dropped by Nginx, returning the specified custom Too Many Requests error string.
+ * **System Resilience:** Once the loop pace allowed the token bucket to regenerate, access briefly opened back up for a single 200 response before instantly locking down subsequent spam.
+## 💡 Conclusion
+Week 5 provided invaluable experience in adaptability and infrastructure troubleshooting. In a production environment, resource constraints and hardware failures are inevitable. The ability to diagnose failure points, decouple dependencies, and execute a tactical pivot without compromising the core security architecture is what defines a competent engineer.
+```
