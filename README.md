@@ -193,7 +193,6 @@ done
 
 ```
 ### Terminal Execution Output
-*(Insert your glorious dual-terminal screenshot showing HTTP 200 codes shifting to 429 here)*
 **Results Analysis:**
  * **Requests 1-5 (HTTP 200):** Successfully forwarded to the Anvil backend as they fell within the allowed burst capacity.
  * **Requests 6-40 (HTTP 429):** Instantly dropped by Nginx, returning the specified custom Too Many Requests error string.
