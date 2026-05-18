@@ -52,7 +52,7 @@ curl -X POST -H "Content-Type: application/json" \
 - **Consensus Client:** Lighthouse
 - **Network:** Holesky
 - **OS:** Arch Linux (Sway WM)
-- **Hardware:** AMD A9-9420 Radeon R5, 2GB RAM
+- **Hardware:** AMD A9-9420 Radeon R5, 12GB RAM
 
 ### Troubleshooting Log
 - **System DNS Conflict:** Encountered persistent DNS resets on `/etc/resolv.conf` due to public WiFi NetworkManager settings.
