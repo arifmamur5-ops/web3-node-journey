@@ -199,11 +199,10 @@ done
  * **System Resilience:** Once the loop pace allowed the token bucket to regenerate, access briefly opened back up for a single 200 response before instantly locking down subsequent spam.
 ## Conclusion
 Week 5 provided invaluable experience in adaptability and infrastructure troubleshooting. In a production environment, resource constraints and hardware failures are inevitable. The ability to diagnose failure points, decouple dependencies, and execute a tactical pivot without compromising the core security architecture is what defines a competent engineer.
-```
 
 
 # Week 6: Open Source Contributions
 
-- [PR #579 merged](https://github.com/ethstaker/eth-docker-docs/pull/579) 
+- [PR #579 merged] https://github.com/ethstaker/eth-docker-docs/pull/579
 
 — Added Arch Linux prerequisites to eth-docker-docs
