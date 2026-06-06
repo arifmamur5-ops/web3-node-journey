@@ -204,5 +204,4 @@ Week 5 provided invaluable experience in adaptability and infrastructure trouble
 # Week 6: Open Source Contributions
 
 - [PR #579 merged] https://github.com/ethstaker/eth-docker-docs/pull/579
-
-— Added Arch Linux prerequisites to eth-docker-docs
+- Added Arch Linux prerequisites to eth-docker-docs
