@@ -200,3 +200,10 @@ done
 ## Conclusion
 Week 5 provided invaluable experience in adaptability and infrastructure troubleshooting. In a production environment, resource constraints and hardware failures are inevitable. The ability to diagnose failure points, decouple dependencies, and execute a tactical pivot without compromising the core security architecture is what defines a competent engineer.
 ```
+
+
+# Week 6: Open Source Contributions
+
+- [PR #579 merged](https://github.com/ethstaker/eth-docker-docs/pull/579) 
+
+— Added Arch Linux prerequisites to eth-docker-docs
